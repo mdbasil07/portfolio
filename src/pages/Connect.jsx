@@ -176,7 +176,7 @@ function Connect() {
                         href={`https://wa.me/${whatsappNumber}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 sm:gap-3 border-2 border-black bg-white px-4 sm:px-6 py-3 sm:py-4 font-bold tracking-widest text-xs sm:text-sm transition-all duration-300 hover:bg-[#25D366] hover:border-[#25D366] hover:text-white hover:translate-y-[-4px] hover:shadow-[0px_4px_0px_0px_rgba(37,211,102,0.5)]"
+                        className="flex items-center justify-center gap-2 sm:gap-3 border-2 border-black bg-white px-4 sm:px-6 py-3 sm:py-4 font-bold tracking-widest text-xs sm:text-sm transition-all duration-300 hover:bg-black hover:text-white hover:translate-y-[-4px] hover:shadow-[0px_4px_0px_0px_rgba(156,163,175,1)]"
                     >
                         <WhatsAppIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                         CONNECT_VIA_WHATSAPP
