@@ -39,7 +39,7 @@ function Home() {
 
                 {/* Role */}
                 <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 tracking-wide">
-                    Senior Full-Stack Developer
+                     Full-Stack Developer
                 </h2>
 
                 {/* Comment */}
