@@ -40,63 +40,63 @@ function Work() {
     ];
 
     return (
-        <section className="min-h-screen bg-[#f4f4f5] px-6 md:px-16 lg:px-24 pt-28 pb-20">
+        <section className="min-h-screen bg-[#f4f4f5] px-4 sm:px-6 md:px-16 lg:px-24 pt-24 sm:pt-28 pb-12 sm:pb-20 overflow-x-hidden">
             {/* Page Title */}
-            <div className="max-w-7xl mx-auto mb-16 text-center">
-                <h1 className="text-4xl md:text-5xl font-bold tracking-wide">
+            <div className="max-w-7xl mx-auto mb-10 sm:mb-16 text-center">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide">
                     <span className="glitch" data-text="Projects">Projects</span>
                 </h1>
             </div>
 
             {/* Projects Grid */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {projects.map((project, index) => (
                     <div
                         key={index}
                         className="border-2 border-black bg-white flex flex-col transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[0px_4px_0px_0px_rgba(156,163,175,1)]"
                     >
                         {/* Window Header */}
-                        <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black">
-                            <div className="flex items-center gap-2">
-                                <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                                <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                                <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                        <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 border-b-2 border-black">
+                            <div className="flex items-center gap-1.5 sm:gap-2">
+                                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500"></span>
+                                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></span>
+                                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500"></span>
                             </div>
-                            <span className="text-xs font-bold tracking-widest">
+                            <span className="text-[10px] sm:text-xs font-bold tracking-widest">
                                 {project.featured ? "FEATURED" : "PROJECT"}
                             </span>
                             <div className="flex items-center gap-2 text-black/40">
-                                <span className="text-xs">—</span>
-                                <span className="text-xs">□</span>
+                                <span className="text-[10px] sm:text-xs">—</span>
+                                <span className="text-[10px] sm:text-xs">□</span>
                             </div>
                         </div>
 
                         {/* Content */}
-                        <div className="p-6 flex flex-col flex-grow">
+                        <div className="p-4 sm:p-6 flex flex-col flex-grow">
                             {/* Project Name */}
-                            <div className="flex items-center justify-between mb-4">
-                                <h2 className="text-xl font-bold">{project.name}</h2>
+                            <div className="flex items-center justify-between mb-3 sm:mb-4">
+                                <h2 className="text-lg sm:text-xl font-bold">{project.name}</h2>
                                 <a
                                     href={project.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="p-1 transition-transform duration-200 hover:translate-y-[-3px]"
                                 >
-                                    <ExternalLink className="w-5 h-5" />
+                                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
                                 </a>
                             </div>
 
                             {/* Description */}
-                            <p className="text-sm text-black/70 leading-relaxed mb-6 flex-grow">
+                            <p className="text-xs sm:text-sm text-black/70 leading-relaxed mb-4 sm:mb-6 flex-grow">
                                 {project.description}
                             </p>
 
                             {/* Tech Stack */}
-                            <div className="flex flex-wrap gap-2 mt-auto">
+                            <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-auto">
                                 {project.tech.map((tech, techIndex) => (
                                     <span
                                         key={techIndex}
-                                        className="px-3 py-1.5 border-2 border-black text-xs font-medium transition-all hover:bg-black hover:text-white"
+                                        className="px-2 sm:px-3 py-1 sm:py-1.5 border-2 border-black text-[10px] sm:text-xs font-medium transition-all hover:bg-black hover:text-white"
                                     >
                                         {tech}
                                     </span>
@@ -106,7 +106,6 @@ function Work() {
                     </div>
                 ))}
             </div>
-
         </section>
     );
 }

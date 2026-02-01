@@ -56,10 +56,10 @@ function Learning() {
     ];
 
     return (
-        <section className="min-h-screen bg-[#f4f4f5] px-6 md:px-16 lg:px-24 pt-28 pb-20">
+        <section className="min-h-screen bg-[#f4f4f5] px-4 sm:px-6 md:px-16 lg:px-24 pt-24 sm:pt-28 pb-12 sm:pb-20 overflow-x-hidden">
             {/* Page Title */}
-            <div className="max-w-7xl mx-auto mb-16 text-center">
-                <h1 className="text-4xl md:text-5xl font-bold tracking-wide">
+            <div className="max-w-7xl mx-auto mb-10 sm:mb-16 text-center">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide">
                     <span className="glitch" data-text="My Learning">My Learning</span>
                 </h1>
                 
@@ -68,46 +68,46 @@ function Learning() {
                     href={resumeLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 mt-8 px-6 py-3 border-2 border-black bg-black text-white text-xs font-bold tracking-widest transition-all duration-300 hover:bg-white hover:text-black"
+                    className="inline-flex items-center gap-2 mt-6 sm:mt-8 px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-black bg-black text-white text-[10px] sm:text-xs font-bold tracking-widest transition-all duration-300 hover:bg-white hover:text-black"
                 >
-                    <Download className="w-4 h-4" />
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     DOWNLOAD_RESUME
                 </a>
             </div>
 
             {/* Two Column Layout */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
                 {/* Academic Records */}
                 <div>
-                    <h2 className="text-lg font-bold mb-6 flex items-center gap-3 tracking-widest">
-                        <GraduationCap className="w-5 h-5" />
+                    <h2 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3 tracking-widest">
+                        <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
                         EDUCATION
                     </h2>
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                         {academicRecords.map((record, index) => (
                             <div
                                 key={index}
                                 className="border-2 border-black bg-white transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[0px_4px_0px_0px_rgba(156,163,175,1)]"
                             >
                                 {/* Window Header */}
-                                <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black">
-                                    <div className="flex items-center gap-2">
-                                        <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                                        <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                                        <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                                <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 border-b-2 border-black">
+                                    <div className="flex items-center gap-1.5 sm:gap-2">
+                                        <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500"></span>
+                                        <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></span>
+                                        <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500"></span>
                                     </div>
-                                    <span className="text-xs font-bold tracking-widest">{record.year}</span>
+                                    <span className="text-[9px] sm:text-xs font-bold tracking-widest">{record.year}</span>
                                     <div className="flex items-center gap-2 text-black/40">
-                                        <span className="text-xs">—</span>
-                                        <span className="text-xs">□</span>
+                                        <span className="text-[10px] sm:text-xs">—</span>
+                                        <span className="text-[10px] sm:text-xs">□</span>
                                     </div>
                                 </div>
 
                                 {/* Content */}
-                                <div className="p-6">
-                                    <h3 className="text-base font-bold mb-1">{record.institution}</h3>
-                                    <p className="text-sm font-mono text-black/70 mb-1">{record.degree}</p>
-                                    <p className="text-sm font-semibold text-black/80">{record.grade}</p>
+                                <div className="p-4 sm:p-6">
+                                    <h3 className="text-sm sm:text-base font-bold mb-1">{record.institution}</h3>
+                                    <p className="text-xs sm:text-sm font-mono text-black/70 mb-1">{record.degree}</p>
+                                    <p className="text-xs sm:text-sm font-semibold text-black/80">{record.grade}</p>
                                 </div>
                             </div>
                         ))}
@@ -116,45 +116,45 @@ function Learning() {
 
                 {/* Certificates */}
                 <div>
-                    <h2 className="text-lg font-bold mb-6 flex items-center gap-3 tracking-widest">
-                        <Award className="w-5 h-5" />
+                    <h2 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3 tracking-widest">
+                        <Award className="w-4 h-4 sm:w-5 sm:h-5" />
                         CERTIFICATIONS
                     </h2>
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                         {certificates.map((cert, index) => (
                             <div
                                 key={index}
                                 className="border-2 border-black bg-white transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[0px_4px_0px_0px_rgba(156,163,175,1)]"
                             >
                                 {/* Window Header */}
-                                <div className="flex items-center justify-between px-4 py-3 border-b-2 border-black">
-                                    <div className="flex items-center gap-2">
-                                        <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                                        <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                                        <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                                <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 sm:py-3 border-b-2 border-black">
+                                    <div className="flex items-center gap-1.5 sm:gap-2">
+                                        <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500"></span>
+                                        <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></span>
+                                        <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500"></span>
                                     </div>
-                                    <span className="text-xs font-bold tracking-widest">{cert.year}</span>
+                                    <span className="text-[10px] sm:text-xs font-bold tracking-widest">{cert.year}</span>
                                     <div className="flex items-center gap-2 text-black/40">
-                                        <span className="text-xs">—</span>
-                                        <span className="text-xs">□</span>
+                                        <span className="text-[10px] sm:text-xs">—</span>
+                                        <span className="text-[10px] sm:text-xs">□</span>
                                     </div>
                                 </div>
 
                                 {/* Content */}
-                                <div className="p-6">
-                                    <div className="flex items-start justify-between mb-2">
-                                        <h3 className="text-base font-bold">{cert.name}</h3>
+                                <div className="p-4 sm:p-6">
+                                    <div className="flex items-start justify-between mb-2 gap-2">
+                                        <h3 className="text-sm sm:text-base font-bold">{cert.name}</h3>
                                         <a
                                             href={cert.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-1 transition-transform duration-200 hover:translate-y-[-3px]"
+                                            className="p-1 transition-transform duration-200 hover:translate-y-[-3px] flex-shrink-0"
                                         >
-                                            <ExternalLink className="w-5 h-5" />
+                                            <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
                                         </a>
                                     </div>
-                                    <p className="text-sm font-semibold text-black/70 mb-2">{cert.issuer}</p>
-                                    <p className="text-sm text-black/60">{cert.description}</p>
+                                    <p className="text-xs sm:text-sm font-semibold text-black/70 mb-2">{cert.issuer}</p>
+                                    <p className="text-xs sm:text-sm text-black/60">{cert.description}</p>
                                 </div>
                             </div>
                         ))}

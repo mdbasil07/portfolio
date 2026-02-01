@@ -9,7 +9,7 @@ import Connect from "./pages/Connect";
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#ffffff] text-black">
+      <div className="min-h-screen bg-[#ffffff] text-black overflow-x-hidden">
         {/* Navbar */}
         <Navbar />
 
