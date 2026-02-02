@@ -2,6 +2,7 @@ import express from 'express';
 import { Resend } from 'resend';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import aiRoutes from './routes/ai.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/api", aiRoutes);
 
 // Root route
 app.get('/', (req, res) => {
