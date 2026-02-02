@@ -18,27 +18,27 @@ router.post("/ai", async (req, res) => {
 
   try {
     const response = await axios.post(
-      "https://api.moonshot.cn/v1/chat/completions",
+      "https://api.moonshot.ai/v1/chat/completions",
       {
-        model: "kimi-k2",
+        model: "kimi-k2-turbo-preview",
         messages: [
           {
             role: "system",
             content:
-              "You are Basil's portfolio assistant. Answer only about his projects, skills, and experience."
+              "You are Basil's portfolio assistant. Answer only about his skills and projects."
           },
           {
             role: "user",
             content: message
           }
-        ]
+        ],
+        temperature: 0.6
       },
       {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `Bearer ${process.env.KIMI_API_KEY}`,
           "Content-Type": "application/json"
-        },
-        timeout: 60000
+        }
       }
     );
 
@@ -50,8 +50,14 @@ router.post("/ai", async (req, res) => {
 
     res.json({ reply: content });
   } catch (err) {
-    console.error("AI route error:", err?.response?.data ?? err.message);
-    res.status(500).json({ error: "AI failed" });
+    const apiError = err?.response?.data?.error;
+    const status = err?.response?.status;
+    const msg = apiError?.message || apiError?.code || err.message;
+    console.error("AI route error:", status, apiError || err.message);
+    res.status(status && status >= 400 && status < 600 ? status : 500).json({
+      error: "AI failed",
+      details: process.env.NODE_ENV !== "production" ? msg : undefined
+    });
   }
 });
 
