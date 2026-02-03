@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import KaidAIChat from "./components/KaidAIChat";
 import About from "./pages/Home";
 import Projects from "./pages/Work";
 import Learning from "./pages/Learning";
@@ -23,6 +24,9 @@ function App() {
 
         {/* Footer */}
         <Footer />
+
+        {/* AI Chat - floating widget */}
+        <KaidAIChat />
       </div>
     </Router>
   );
