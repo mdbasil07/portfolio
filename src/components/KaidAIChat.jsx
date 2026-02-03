@@ -125,7 +125,7 @@ function KaidAIChat() {
   };
 
   return (
-    <div className="fixed left-4 right-4 z-40 flex flex-col items-center gap-3 bottom-[max(1rem,env(safe-area-inset-bottom,0px))] sm:left-auto sm:right-6 sm:bottom-6 sm:items-end">
+    <div className="fixed left-4 right-4 z-40 flex flex-col items-end gap-3 bottom-[max(1rem,env(safe-area-inset-bottom,0px))] sm:left-auto sm:right-6 sm:bottom-6">
       {open && (
         <div
           className={`grid h-[70vh] max-h-[calc(100vh-5rem)] w-full max-w-[350px] grid-rows-[auto_1fr_auto] overflow-hidden rounded-none border-2 border-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-[250ms] ease-out sm:h-[55vh] sm:w-[calc(100vw-2rem)] ${
