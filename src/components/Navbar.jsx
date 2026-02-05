@@ -16,6 +16,7 @@ function Navbar() {
         { path: "/projects", label: "Projects" },
         { path: "/learning", label: "Learning" },
         { path: "/connect", label: "Connect" },
+        { path: "/ats", label: "ATS Checker" },
     ];
 
     // Get current active path

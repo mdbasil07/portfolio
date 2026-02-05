@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
 import aiRoutes from "./routes/ai.js";
+import atsRoutes from "./routes/ats.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(
   })
 );
 app.use("/api", aiRoutes);
+app.use("/api/ats", atsRoutes);
 
 app.get("/", (req, res) => {
   res.json({
@@ -70,7 +72,6 @@ app.post("/api/send-email", async (req, res) => {
       return res.status(500).json({ error: "Failed to send email" });
     }
 
-    console.log("Email sent:", data);
     res.status(200).json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
     console.error("Error sending email:", error);

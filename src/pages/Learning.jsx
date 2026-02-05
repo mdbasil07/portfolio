@@ -43,7 +43,7 @@ function Learning() {
             name: "Amazon Bedrock Getting Started",
             issuer: "AWS Training and Certification",
             description: "Completed training on Amazon Bedrock foundation models and AI services.",
-            link: "https://drive.google.com/file/d/1surBPvuu_we9lXpPhH110yt2MWXRdOE2/view?usp=sharing",
+            link: "https://drive.google.com/file/d/1cAZ6UvabBiNCPtJWSLC774lqoOD3spYi/view?usp=sharing",
             year: "2025"
         },
         {
