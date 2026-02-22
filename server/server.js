@@ -2,6 +2,7 @@ import express from "express";
 import { Resend } from "resend";
 import cors from "cors";
 import dotenv from "dotenv";
+import mongoose from "mongoose";
 import rateLimit from "express-rate-limit";
 import aiRoutes from "./routes/ai.js";
 import atsRoutes from "./routes/ats.js";
@@ -10,6 +11,15 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Connect to MongoDB if URI is provided
+if (process.env.MONGO_URI) {
+  mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch(err => console.error("MongoDB connection error:", err));
+} else {
+  console.log("No MONGO_URI provided. Skipping MongoDB connection.");
+}
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -32,6 +42,10 @@ app.get("/", (req, res) => {
     status: "Server is running",
     message: "Portfolio Email API (Resend) + AI"
   });
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).send("Server is alive");
 });
 
 app.post("/api/send-email", async (req, res) => {
