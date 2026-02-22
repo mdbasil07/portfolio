@@ -26,7 +26,7 @@ export default function ATS() {
       form.append("resume", file);
       form.append("jobDescription", jd.trim());
 
-      const res = await fetch(`${API_BASE}/api/ats`, {
+      const res = await fetch(`${API_BASE}/api/ats/upload-resume`, {
         method: "POST",
         body: form
       });
