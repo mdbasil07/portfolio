@@ -12,14 +12,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB if URI is provided
-if (process.env.MONGO_URI) {
-  mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("Connected to MongoDB"))
-    .catch(err => console.error("MongoDB connection error:", err));
-} else {
-  console.log("No MONGO_URI provided. Skipping MongoDB connection.");
-}
+// Database connection handled in startServer()
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -93,6 +86,24 @@ app.post("/api/send-email", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// 🔥 CONNECT MONGODB BEFORE STARTING SERVER
+async function startServer() {
+  try {
+    if (process.env.MONGO_URI) {
+      await mongoose.connect(process.env.MONGO_URI);
+      console.log("MongoDB Connected ✅");
+    } else {
+      console.log("No MONGO_URI provided. Skipping MongoDB connection.");
+    }
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    process.exit(1); // stop app if DB fails
+  }
+}
+
+startServer();
