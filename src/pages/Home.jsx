@@ -33,19 +33,19 @@ function Home() {
 
                 {/* Main Heading */}
                 <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold mb-4 sm:mb-6 leading-tight">
-                    <span className="text-black">HELLO, I'M </span>
+                    <span className="text-black uppercase">Hello, I’m </span>
                     <span className="underline decoration-2 underline-offset-4 sm:underline-offset-8 glitch" data-text="Basil">Basil</span>
                 </h1>
 
                 {/* Role */}
-                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 tracking-wide">
-                     Full-Stack Developer
+                <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4 tracking-wide uppercase">
+                    Software Developer
                 </h2>
 
                 {/* Comment */}
                 <p className="text-xs sm:text-sm text-black/50 mb-8 sm:mb-10 tracking-wide">
                     <span className="text-black/30">//</span>{" "}
-                    <span className="text-black">Frontend & Backend Enthusiast</span>
+                    <span className="text-black">Full-Stack • AI Systems • Cloud Deployment</span>
                 </p>
 
                 {/* CTA Buttons */}
@@ -92,7 +92,7 @@ function Home() {
                         <div className="p-4 sm:p-6 md:p-8">
                             <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm leading-relaxed text-black/80">
                                 <p>
-                                    I am a Computer Science Engineering student and Full-Stack Developer
+                                    I am a Computer Science Engineering student and Software Developer
                                     who enjoys building real-world software that solves practical problems.
                                 </p>
                                 <p>
