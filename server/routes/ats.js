@@ -60,7 +60,7 @@ router.post("/upload-resume", upload.single("resume"), async (req, res) => {
     let result;
     try {
       result = await cloudinary.uploader.upload(file.path, {
-        resource_type: "raw", // important for pdf/docx
+        resource_type: "auto",
         folder: "resumes",
       });
     } catch (err) {
