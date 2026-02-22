@@ -72,6 +72,7 @@ router.post("/upload-resume", upload.single("resume"), async (req, res) => {
     // Save metadata in MongoDB
     let savedResume;
     try {
+      console.log("Attempting to save resume to MongoDB...");
       savedResume = await Resume.create({
         fileName: file.originalname,
         cloudinaryUrl: result.secure_url,
@@ -81,6 +82,7 @@ router.post("/upload-resume", upload.single("resume"), async (req, res) => {
         atsScore: score, // real ATS score!
         uploadedAt: new Date(),
       });
+      console.log("Successfully saved resume to MongoDB:", savedResume._id);
     } catch (err) {
       console.error("MongoDB save error:", err);
       // It's optional if we wanna fail the request just because of MongoDB, but we try.
