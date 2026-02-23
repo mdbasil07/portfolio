@@ -1,13 +1,11 @@
+import "dotenv/config";
 import express from "express";
 import { Resend } from "resend";
 import cors from "cors";
-import dotenv from "dotenv";
 import mongoose from "mongoose";
 import rateLimit from "express-rate-limit";
 import aiRoutes from "./routes/ai.js";
 import atsRoutes from "./routes/ats.js";
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -96,9 +94,38 @@ async function startServer() {
       console.log("No MONGO_URI provided. Skipping MongoDB connection.");
     }
 
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    // Try listening with automatic retries if the port is already in use.
+    const parsedPort = Number(PORT) || 5000;
+    const maxRetries = 5;
+
+    const tryListen = (port, remainingRetries) => {
+      const server = app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+      });
+
+      server.on("error", (err) => {
+        if (err && err.code === "EADDRINUSE") {
+          if (remainingRetries > 0) {
+            console.warn(
+              `Port ${port} in use, retrying on port ${port + 1} (${remainingRetries} retries left)...`
+            );
+            // Wait briefly before retrying to reduce race conditions
+            setTimeout(() => tryListen(port + 1, remainingRetries - 1), 500);
+          } else {
+            console.error(
+              `Failed to bind to a port after multiple attempts. Last error:`,
+              err
+            );
+            process.exit(1);
+          }
+        } else {
+          console.error("Server error:", err);
+          process.exit(1);
+        }
+      });
+    };
+
+    tryListen(parsedPort, maxRetries);
 
   } catch (error) {
     console.error("MongoDB connection error:", error);

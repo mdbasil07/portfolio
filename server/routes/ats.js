@@ -2,8 +2,8 @@ import express from "express";
 import multer from "multer";
 import fs from "fs";
 import { PDFParse } from "pdf-parse";
-import { scoreResume } from "../services/scorer.js";
-import { getATSSuggestions } from "../services/aiAnalyzer.js";
+import { hybridATSScorer, rankCandidates } from "../services/scorer.js";
+import { getATSSuggestions } from "../services/aiAnalyzer_v2.js";
 import cloudinary from "../config/cloudinary.js";
 import Resume from "../models/Resume.js";
 
@@ -46,13 +46,26 @@ router.post("/upload-resume", upload.single("resume"), async (req, res) => {
       return res.status(400).json({ error: "Could not extract text from PDF" });
     }
 
-    const { score, matchedSkills, missingSkills } = scoreResume(resumeText, jobDescription);
+    const atsResult = await hybridATSScorer({
+      resumeText,
+      jobDescText: jobDescription,
+      useEmbeddings: true,
+    });
+    const { score, matchedSkills, missingSkills, breakdown, features, recommendations, penalties, gamingFlags, meta } = atsResult;
 
     let suggestions = "";
     try {
-      suggestions = await getATSSuggestions(resumeText, jobDescription);
+      suggestions = await getATSSuggestions({
+        resumeText,
+        jobDescription,
+        score: atsResult.score,
+        weakSignals: atsResult.weakSignals,
+        missingSkills: atsResult.missingSkills,
+        riskFlags: atsResult.riskFlags
+      });
     } catch (err) {
       console.error("ATS AI suggestions error:", err.message);
+      // aiAnalyzer now provides deterministic fallback; keep a safe fallback string
       suggestions = "AI suggestions are temporarily unavailable.";
     }
 
@@ -98,11 +111,16 @@ router.post("/upload-resume", upload.single("resume"), async (req, res) => {
     res.json({
       message: "Resume uploaded successfully",
       data: savedResume,
-      // Pass ATS scoring back for frontend consumption
       score,
       matchedSkills,
       missingSkills,
-      suggestions
+      suggestions,
+      breakdown,
+      features,
+      recommendations,
+      penalties,
+      gamingFlags,
+      meta,
     });
   } catch (err) {
     if (req.file) {
@@ -145,10 +163,22 @@ router.post("/", upload.single("resume"), async (req, res) => {
       return res.status(400).json({ error: "Could not extract text from PDF" });
     }
 
-    const { score, matchedSkills, missingSkills } = scoreResume(resumeText, jobDescription);
+    const atsResult = await hybridATSScorer({
+      resumeText,
+      jobDescText: jobDescription,
+      useEmbeddings: true,
+    });
+    const { score, matchedSkills, missingSkills, breakdown, features, recommendations, penalties, gamingFlags, meta } = atsResult;
     let suggestions = "";
     try {
-      suggestions = await getATSSuggestions(resumeText, jobDescription);
+      suggestions = await getATSSuggestions({
+        resumeText,
+        jobDescription,
+        score: atsResult.score,
+        weakSignals: atsResult.weakSignals,
+        missingSkills: atsResult.missingSkills,
+        riskFlags: atsResult.riskFlags
+      });
     } catch (err) {
       suggestions = "AI suggestions are temporarily unavailable.";
     }
@@ -162,7 +192,13 @@ router.post("/", upload.single("resume"), async (req, res) => {
       score,
       matchedSkills,
       missingSkills,
-      suggestions
+      suggestions,
+      breakdown,
+      features,
+      recommendations,
+      penalties,
+      gamingFlags,
+      meta,
     });
   } catch (err) {
     if (req.file) {
