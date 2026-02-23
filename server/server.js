@@ -4,6 +4,7 @@ import { Resend } from "resend";
 import cors from "cors";
 import mongoose from "mongoose";
 import rateLimit from "express-rate-limit";
+import axios from "axios";
 import aiRoutes from "./routes/ai.js";
 import atsRoutes from "./routes/ats.js";
 
@@ -101,6 +102,18 @@ async function startServer() {
     const tryListen = (port, remainingRetries) => {
       const server = app.listen(port, () => {
         console.log(`Server running on port ${port}`);
+
+        if (process.env.NODE_ENV === "production" && process.env.EMBEDDING_SERVICE_URL) {
+          // Keep embedding service alive (periodic ping). Non-blocking, short timeout.
+          setInterval(async () => {
+            try {
+              await axios.get(process.env.EMBEDDING_SERVICE_URL, { timeout: 5000 });
+              console.log("Embedding service kept alive");
+            } catch (err) {
+              console.log("Embedding service wake-up ping failed");
+            }
+          }, 10 * 60 * 1000); // every 10 minutes
+        }
       });
 
       server.on("error", (err) => {
