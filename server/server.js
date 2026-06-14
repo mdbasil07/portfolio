@@ -1,4 +1,4 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import express from "express";
 import { Resend } from "resend";
 import cors from "cors";
@@ -7,6 +7,8 @@ import rateLimit from "express-rate-limit";
 import axios from "axios";
 import aiRoutes from "./routes/ai.js";
 import atsRoutes from "./routes/ats.js";
+
+dotenv.config({ path: new URL("./.env", import.meta.url) });
 
 const app = express();
 const PORT = process.env.PORT || 5000;

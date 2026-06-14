@@ -2,7 +2,7 @@
  * ╔══════════════════════════════════════════════════════════════════════╗
  * ║  Hybrid Industry-Grade ATS Scorer v2.0                             ║
  * ║  ──────────────────────────────────────────────────────────────────  ║
- * ║  ✅ Semantic similarity via OpenAI embeddings                      ║
+ * ║  ✅ Semantic similarity via local embedding service                ║
  * ║  ✅ 30 normalised feature signals                                   ║
  * ║  ✅ Soft penalty model                                              ║
  * ║  ✅ Missing core-skill hard gate                                    ║
@@ -647,7 +647,7 @@ function generateRecommendations(features, skillData, contactFeatures, gamingFla
  * @param {string} params.jobDescText    - Full job description text
  * @param {Object} [params.jdMeta={}]    - Optional JD metadata
  *   @param {string[]} [params.jdMeta.mandatorySkills] - Skills that MUST match
- * @param {boolean} [params.useEmbeddings=true] - Use OpenAI embeddings
+ * @param {boolean} [params.useEmbeddings=true] - Use semantic embeddings
  * @returns {Promise<Object>} Scoring result
  */
 export async function hybridATSScorer({

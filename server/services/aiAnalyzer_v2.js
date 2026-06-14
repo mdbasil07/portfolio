@@ -1,8 +1,16 @@
 import axios from "axios";
 import crypto from "crypto";
+import {
+  buildGeminiPayload,
+  extractGeminiError,
+  extractGeminiText,
+  GEMINI_MODEL,
+  getGeminiApiKey,
+  getGeminiEndpoint,
+  logGeminiRequest
+} from "./geminiClient.js";
 
-const KIMI_URL = "https://api.moonshot.ai/v1/chat/completions";
-const MODEL = "kimi-k2-turbo-preview";
+const GEMINI_URL = getGeminiEndpoint(GEMINI_MODEL, "generateContent");
 
 const ATS_PROMPT = `
 You are a professional resume reviewer and technical recruiter.
@@ -125,7 +133,7 @@ export async function getATSSuggestions({
   missingSkills = [],
   riskFlags = []
 } = {}) {
-  const apiKey = process.env.KIMI_API_KEY;
+  const apiKey = getGeminiApiKey();
   const jdSnippet = jobDescription.slice(0, 4000);
   const resumeSnippet = resumeText.slice(0, 4000);
 
@@ -153,34 +161,37 @@ ${riskFlags.length ? riskFlags.join(", ") : "None"}
   }
 
   try {
+    logGeminiRequest({ label: "ATS suggestions v2", endpoint: GEMINI_URL, model: GEMINI_MODEL, apiKey });
     const resp = await axios.post(
-      KIMI_URL,
-      {
-        model: MODEL,
-        messages: [
-          { role: "system", content: ATS_PROMPT },
-          { role: "user", content: contextSummary }
-        ],
+      GEMINI_URL,
+      buildGeminiPayload({
+        systemInstruction: ATS_PROMPT,
+        contents: [{ role: "user", parts: [{ text: contextSummary }] }],
         temperature: 0.5
-      },
+      }),
       {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          "x-goog-api-key": apiKey,
           "Content-Type": "application/json"
         },
         timeout: 15000
       }
     );
 
-    const content = resp.data?.choices?.[0]?.message?.content;
+    const content = extractGeminiText(resp.data);
     if (!content) throw new Error("AI returned no content");
     responseCache.set(cacheKey, content);
     return content;
   } catch (err) {
-    console.error("getATSSuggestions_v2 error:", err.message || err);
+    console.error("getATSSuggestions_v2 Gemini error:", {
+      status: err?.response?.status,
+      endpoint: GEMINI_URL,
+      model: GEMINI_MODEL,
+      error: err?.response?.data || err.message || err,
+      message: extractGeminiError(err?.response?.data)
+    });
     const fallback = simpleDeterministic(weakSignals, missingSkills, resumeText);
     responseCache.set(cacheKey, fallback);
     return fallback;
   }
 }
-

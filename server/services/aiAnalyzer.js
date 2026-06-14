@@ -1,8 +1,16 @@
 import axios from "axios";
 import crypto from "crypto";
+import {
+  buildGeminiPayload,
+  extractGeminiError,
+  extractGeminiText,
+  GEMINI_MODEL,
+  getGeminiApiKey,
+  getGeminiEndpoint,
+  logGeminiRequest
+} from "./geminiClient.js";
 
-const KIMI_URL = "https://api.moonshot.ai/v1/chat/completions";
-const MODEL = "kimi-k2-turbo-preview";
+const GEMINI_URL = getGeminiEndpoint(GEMINI_MODEL, "generateContent");
 
 const ATS_PROMPT = `
 You are a senior technical recruiter and resume strategist.
@@ -142,7 +150,7 @@ export async function getATSSuggestions({
   missingSkills = [],
   riskFlags = []
 } = {}) {
-  const apiKey = process.env.KIMI_API_KEY;
+  const apiKey = getGeminiApiKey();
   // Build a short prioritized context (experience + skills first)
   const resumeSnippet = resumeText.slice(0, 4000);
   const jdSnippet = jobDescription.slice(0, 4000);
@@ -187,31 +195,35 @@ ${contextSummary}
   }
 
   try {
+    logGeminiRequest({ label: "ATS suggestions", endpoint: GEMINI_URL, model: GEMINI_MODEL, apiKey });
     const response = await axios.post(
-      KIMI_URL,
-      {
-        model: MODEL,
-        messages: [
-          { role: "system", content: ATS_PROMPT },
-          { role: "user", content: userContent }
-        ],
-        temperature: 0.5,
-      },
+      GEMINI_URL,
+      buildGeminiPayload({
+        systemInstruction: ATS_PROMPT,
+        contents: [{ role: "user", parts: [{ text: userContent }] }],
+        temperature: 0.5
+      }),
       {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          "x-goog-api-key": apiKey,
           "Content-Type": "application/json",
         },
         timeout: 15000,
       }
     );
 
-    const content = response.data?.choices?.[0]?.message?.content;
+    const content = extractGeminiText(response.data);
     if (!content) throw new Error("AI returned no content");
     responseCache.set(cacheKey, content);
     return content;
   } catch (err) {
-    console.error("getATSSuggestions error:", err.message || err);
+    console.error("getATSSuggestions Gemini error:", {
+      status: err?.response?.status,
+      endpoint: GEMINI_URL,
+      model: GEMINI_MODEL,
+      error: err?.response?.data || err.message || err,
+      message: extractGeminiError(err?.response?.data)
+    });
     const fallback = generateDeterministicSuggestions(weakSignals, missingSkills);
     responseCache.set(cacheKey, fallback);
     return fallback;
