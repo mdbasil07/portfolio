@@ -2,7 +2,7 @@ import { GraduationCap, Award, ExternalLink, Download } from "lucide-react";
 
 function Learning() {
     // Replace with your actual resume link
-    const resumeLink = "https://drive.google.com/file/d/1gQZZNC-sBPh8EG1G1N8GCzAwxJYzSI_Y/view?usp=sharing";
+    const resumeLink = "https://drive.google.com/file/d/1lb4rUOYsJzo3fATtQ5WvByqtiQNxJyvp/view?usp=sharing";
     const academicRecords = [
         {
             institution: "Saveetha School Of Engineering, Thandalam",
